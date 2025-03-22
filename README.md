@@ -109,10 +109,18 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-```dart
-// final ip = dotenv.env['API_IP'] ?? '10.0.2.2';
+void registerApisBeforeRunApp() {
+  final services = GetIt.instance;
 
-final ip = '10.0.2.2';
+  // final ip = dotenv.env['API_IP'] ?? 'localhost';
+  final ip = '10.0.2.2';
+
+  final vignetteApi = HighwayVignetteApi(
+    basePathOverride: '$ip:$port',
+  ).getVignetteApi();
+
+  services.registerSingleton<VignetteApi>(vignetteApi);
+}
 ```
 
 ---
