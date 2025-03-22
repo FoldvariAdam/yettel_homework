@@ -13,7 +13,7 @@ Ez a dokumentum segít elindítani az alkalmazást, amely egy Flutter alapú mob
 
 ---
 
-## 🐳 1. Backend indítása Dockerből
+## 1. Backend indítása Dockerből
 
 ```bash
 docker-compose up --build
@@ -23,7 +23,7 @@ Ez elérhetővé teszi a backendet a saját gépeden a `8080`-as porton.
 
 ---
 
-## 📄 2. `.env` fájl beállítása
+## 2. `.env` fájl beállítása
 
 ### 1. Hozz létre egy `.env` fájlt a projekt gyökerében
 
@@ -48,7 +48,7 @@ flutter:
 
 ---
 
-## ⚙️ 3. Győződj meg hogy a Flutter kódban is benne van
+## 3. Győződj meg hogy a Flutter kódban is benne van
 
 ### `main.dart`:
 
@@ -82,7 +82,7 @@ void registerApisBeforeRunApp() {
 
 ---
 
-## ❓ 4. Hiba esetén: `.env` nem található
+## 4. Hiba esetén: `.env` nem található
 
 Ha ilyen hibát kapsz:
 
@@ -96,7 +96,7 @@ akkor:
 - nincs `.env` fájl a projekt gyökerében
 - hot reload után próbáltad (csak cold start működik!)
 
-### 🔹 Alternatív megoldás:
+### Alternatív megoldás:
 
 Ha nem működik a `.env`, kommenteld ki, és írd be kézzel az IP-t:
 
@@ -125,7 +125,7 @@ void registerApisBeforeRunApp() {
 
 ---
 
-## 🚀 5. App futtatása
+## 5. App futtatása
 
 ```bash
 flutter pub get
