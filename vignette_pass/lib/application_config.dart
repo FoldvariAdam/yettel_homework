@@ -34,10 +34,10 @@ class ApplicationConfig {
       color: mainColor,
     );
 
-    heading4S = const TextStyle(
+    heading4S = TextStyle(
       fontWeight: FontWeight.w600,
       fontSize: 20.0,
-      color: Color(0xFFFFFFFF),
+      color: mainColor,
     );
 
     heading7S = TextStyle(

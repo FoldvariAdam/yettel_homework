@@ -13,7 +13,7 @@ class VignettePassPage extends StatefulWidget {
 class _VignettePassPageState extends State<VignettePassPage> {
   final ApplicationConfig _applicationConfig = GetIt.instance.get<ApplicationConfig>();
 
-  int _selectedOption = 1;
+  HighwayVignette? _selectedVignette;
 
   final _vignettePriority = {'WEEK': 0, 'MONTH': 1, 'DAY': 2};
 
@@ -64,9 +64,9 @@ class _VignettePassPageState extends State<VignettePassPage> {
 
                         final title = _formatVignetteTitle(rawType);
 
-                        final price = '${vignette.cost.toInt().toString()} Ft';
+                        final price = '${vignette.sum.toInt().toString()} Ft';
 
-                        return _buildRadioTile(value: index, title: title, price: price);
+                        return _buildRadioTile(value: vignette, title: title, price: price);
                       },
                     ),
                   ),
@@ -79,8 +79,16 @@ class _VignettePassPageState extends State<VignettePassPage> {
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
-                      onPressed: navigationService.goToPurchaseConfirmationPage,
-                      child: Text('Vásárlás', style: _applicationConfig.heading4S),
+                      onPressed:
+                          () => navigationService.goToPurchaseConfirmationPage(
+                            selectedVignettes: [
+                              SelectableVignette(
+                                name: _formatVignetteTitle(_selectedVignette!.vignetteTypes.first),
+                                price: _selectedVignette!.sum,
+                              ),
+                            ],
+                          ),
+                      child: Text('Vásárlás', style: _applicationConfig.heading4S.copyWith(color: Colors.white)),
                     ),
                   ),
                   SizedBox(height: _applicationConfig.spacing3),
@@ -109,13 +117,13 @@ class _VignettePassPageState extends State<VignettePassPage> {
     );
   }
 
-  Widget _buildRadioTile({required int value, required String title, required String price}) {
-    return RadioListTile(
+  Widget _buildRadioTile({required HighwayVignette value, required String title, required String price}) {
+    return RadioListTile<HighwayVignette>(
       value: value,
-      groupValue: _selectedOption,
-      onChanged: (int? newValue) {
+      groupValue: _selectedVignette,
+      onChanged: (HighwayVignette? newValue) {
         setState(() {
-          _selectedOption = newValue!;
+          _selectedVignette = newValue!;
         });
       },
       title: Text(title, style: _applicationConfig.highlightedTextStyle),

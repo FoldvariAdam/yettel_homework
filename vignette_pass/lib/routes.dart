@@ -33,7 +33,11 @@ GoRouter createRouterConfig() {
           GoRoute(
             name: NavigationRoutes.purchaseConfirmation,
             path: '/${NavigationRoutes.purchaseConfirmation}',
-            builder: (context, state) => const PurchaseConfirmationPage(),
+            builder: (context, state) {
+              final selectedVignettes = state.extra as List<SelectableVignette>;
+
+              return PurchaseConfirmationPage(selectedVignettes: selectedVignettes);
+            },
           ),
           GoRoute(
             name: NavigationRoutes.paymentSuccess,

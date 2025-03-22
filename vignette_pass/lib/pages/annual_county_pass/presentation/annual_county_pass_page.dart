@@ -17,7 +17,7 @@ class AnnualCountyPassPage extends StatefulWidget {
 class _AnnualCountyPassPageState extends State<AnnualCountyPassPage> {
   final ApplicationConfig _applicationConfig = GetIt.instance.get<ApplicationConfig>();
 
-  late List<SelectableCounty> _selectableCounties;
+  late List<SelectableVignette> _selectableCounties;
 
   @override
   void initState() {
@@ -29,7 +29,7 @@ class _AnnualCountyPassPageState extends State<AnnualCountyPassPage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(_applicationConfig.spacing2),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -43,7 +43,7 @@ class _AnnualCountyPassPageState extends State<AnnualCountyPassPage> {
               itemBuilder: (context, index) {
                 final item = _selectableCounties[index];
                 return CheckboxListTile(
-                  title: Text(item.county.name, style: _applicationConfig.bodyTextStyle),
+                  title: Text(item.name, style: _applicationConfig.bodyTextStyle),
                   subtitle: Text('${item.price.toStringAsFixed(0)} Ft', style: _applicationConfig.heading5L),
                   value: item.selected,
                   activeColor: Colors.black,
@@ -58,10 +58,7 @@ class _AnnualCountyPassPageState extends State<AnnualCountyPassPage> {
           ),
           SizedBox(height: _applicationConfig.spacing1),
           Text('Fizetendő összeg', style: _applicationConfig.heading7S),
-          Text(
-            '${_getSelectedTotalPrice().toStringAsFixed(0)} Ft',
-            style: _applicationConfig.heading2S,
-          ),
+          Text('${_getSelectedTotalPrice().toStringAsFixed(0)} Ft', style: _applicationConfig.heading2S),
           SizedBox(height: _applicationConfig.spacing3),
           SizedBox(
             width: double.infinity,
@@ -71,7 +68,10 @@ class _AnnualCountyPassPageState extends State<AnnualCountyPassPage> {
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
-              onPressed: NavigationService.of(context).goToPurchaseConfirmationPage,
+              onPressed:
+                  () => NavigationService.of(
+                    context,
+                  ).goToPurchaseConfirmationPage(selectedVignettes: _selectableCounties.where((county) => county.selected).toList()),
               child: const Text('Tovább'),
             ),
           ),
@@ -80,7 +80,7 @@ class _AnnualCountyPassPageState extends State<AnnualCountyPassPage> {
     );
   }
 
-  List<SelectableCounty> _buildSelectableCounties({
+  List<SelectableVignette> _buildSelectableCounties({
     required List<County> counties,
     required List<HighwayVignette> vignettes,
   }) {
@@ -91,17 +91,9 @@ class _AnnualCountyPassPageState extends State<AnnualCountyPassPage> {
 
     return counties.map((county) {
       final isIncluded = countyVignette.vignetteTypes.contains(county.id);
-      return SelectableCounty(county: county, price: isIncluded ? countyVignette.cost : 0.0);
+      return SelectableVignette(name: county.name, price: isIncluded ? countyVignette.sum : 0.0);
     }).toList();
   }
 
   double _getSelectedTotalPrice() => _selectableCounties.where((c) => c.selected).fold(0.0, (sum, c) => sum + c.price);
-}
-
-class SelectableCounty {
-  final County county;
-  final double price;
-  bool selected;
-
-  SelectableCounty({required this.county, required this.price, this.selected = false});
 }

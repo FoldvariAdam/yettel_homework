@@ -31,15 +31,15 @@ class NavigationService {
   }
 
   void goToPaymentSuccessPage() {
-    _goToPageImpl(context: context, routeName: NavigationRoutes.paymentSuccess);
+    _goToPageImpl(context: context, routeName: NavigationRoutes.paymentSuccess, withoutStacking: true);
   }
 
-  void goToPurchaseConfirmationPage() {
-    _goToPageImpl(context: context, routeName: NavigationRoutes.purchaseConfirmation);
+  void goToPurchaseConfirmationPage({required List<SelectableVignette> selectedVignettes}) {
+    _goToPageImpl(context: context, routeName: NavigationRoutes.purchaseConfirmation, extra: selectedVignettes);
   }
 
   void goToVignettePage() {
-    _goToPageImpl(context: context, routeName: NavigationRoutes.vignette);
+    _goToPageImpl(context: context, routeName: NavigationRoutes.vignette, withoutStacking: true);
   }
 
   void _goToPageImpl({
