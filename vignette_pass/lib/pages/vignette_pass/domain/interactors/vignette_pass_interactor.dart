@@ -3,9 +3,8 @@ import 'package:vignette_pass/index.dart';
 
 class VignettePassInteractor {
   final VignetteApi vignetteApi;
-  final VehicleCategoryCache vehicleCategoryCache;
 
-  VignettePassInteractor({required this.vignetteApi, required this.vehicleCategoryCache});
+  VignettePassInteractor({required this.vignetteApi});
 
   Future<VehicleInfo> getVehicleInfo() async {
     final vehicleInfo = await vignetteApi.getVehicleInfo();
@@ -14,10 +13,22 @@ class VignettePassInteractor {
   }
 
   Future<HighwayInfo> getHighwayInfo() async {
-    final highWayInfo = await vignetteApi.getHighwayInfo();
+    final response = await vignetteApi.getHighwayInfo();
+    final payload = response.data?.payload;
 
-    vehicleCategoryCache.set(highWayInfo.data?.payload?.vehicleCategories.toVehicleCategory() ?? []);
+    final vehicleCategories = payload?.vehicleCategories ?? [];
+    final highwayVignettes = payload?.highwayVignettes ?? [];
+    final counties = payload?.counties ?? [];
 
-    return highWayInfo.data.toHighwayInfo();
+    final flattened = highwayVignettes.toFlattened(
+      vehicleCategories: vehicleCategories,
+      counties: counties,
+    );
+
+    final withYear = flattened.where((v) => v.type.startsWith('YEAR_')).toList();
+
+    final withoutYear = flattened.where((v) => !v.type.startsWith('YEAR_')).toList();
+
+    return HighwayInfo(vignettesWithYear: withYear, vignettesWithoutYear: withoutYear);
   }
 }

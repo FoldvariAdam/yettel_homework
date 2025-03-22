@@ -3,13 +3,21 @@ import 'package:vignette_pass/index.dart';
 
 class PurchaseConfirmationInteractor {
   final VignetteApi vignetteApi;
-  final VehicleCategoryCache vehicleCategoryCache;
 
-  PurchaseConfirmationInteractor({required this.vignetteApi, required this.vehicleCategoryCache});
+  PurchaseConfirmationInteractor({required this.vignetteApi});
 
-  Future<void> postHighWayOrder() async {
-    //await vignetteApi.postHighwayOrder(postHighwayOrderRequest: postHighwayOrderRequest);
+  Future<void> postHighWayOrder(List<FlattenedVignette> selectedVignettes) async {
+    final orders =
+        selectedVignettes.map((v) {
+          return PostHighwayOrderRequestHighwayOrdersInner(
+            type: v.type,
+            category: v.category,
+            cost: v.sum,
+          );
+        }).toList();
+
+    final request = PostHighwayOrderRequest(highwayOrders: orders);
+
+    await vignetteApi.postHighwayOrder(postHighwayOrderRequest: request);
   }
-
-
 }

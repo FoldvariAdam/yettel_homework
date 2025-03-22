@@ -13,7 +13,7 @@ class VignettePassPage extends StatefulWidget {
 class _VignettePassPageState extends State<VignettePassPage> {
   final ApplicationConfig _applicationConfig = GetIt.instance.get<ApplicationConfig>();
 
-  HighwayVignette? _selectedVignette;
+  FlattenedVignette? _selectedVignette;
 
   final _vignettePriority = {'WEEK': 0, 'MONTH': 1, 'DAY': 2};
 
@@ -22,7 +22,9 @@ class _VignettePassPageState extends State<VignettePassPage> {
     final navigationService = NavigationService.of(context);
 
     return BlocProvider(
-      create: (context) => GetIt.instance.get<VignettePassBloc>()..add(VignettePassGetVehicleHighwayInfoEvent()),
+      create:
+          (context) =>
+              GetIt.instance.get<VignettePassBloc>()..add(VignettePassGetVehicleHighwayInfoEvent()),
       child: BlocBuilder<VignettePassBloc, VignettePassState>(
         builder: (context, state) {
           if (state is VignettePassLoadedState) {
@@ -30,13 +32,12 @@ class _VignettePassPageState extends State<VignettePassPage> {
             final highwayInfo = state.highwayInfo;
             final vignettesWithoutYear = highwayInfo.vignettesWithoutYear;
 
-            final sortedVignettes = List<HighwayVignette>.from(vignettesWithoutYear)..sort((a, b) {
-              final aType = a.vignetteTypes.firstWhere(_vignettePriority.containsKey, orElse: () => '');
-              final bType = b.vignetteTypes.firstWhere(_vignettePriority.containsKey, orElse: () => '');
-              final aPriority = _vignettePriority[aType] ?? 999;
-              final bPriority = _vignettePriority[bType] ?? 999;
-              return aPriority.compareTo(bPriority);
-            });
+            final sortedVignettes = List<FlattenedVignette>.from(vignettesWithoutYear)
+              ..sort((a, b) {
+                final aPriority = _vignettePriority[a.type] ?? 999;
+                final bPriority = _vignettePriority[b.type] ?? 999;
+                return aPriority.compareTo(bPriority);
+              });
 
             return Padding(
               padding: EdgeInsets.all(_applicationConfig.spacing2),
@@ -46,7 +47,10 @@ class _VignettePassPageState extends State<VignettePassPage> {
                   VignetteCard(
                     child: ListTile(
                       leading: const Icon(Icons.directions_car),
-                      title: Text(vehicleInfo.plate, style: _applicationConfig.highlightedTextStyle),
+                      title: Text(
+                        vehicleInfo.plate,
+                        style: _applicationConfig.highlightedTextStyle,
+                      ),
                       subtitle: Text(vehicleInfo.name, style: _applicationConfig.bodyTextStyle),
                     ),
                   ),
@@ -60,36 +64,21 @@ class _VignettePassPageState extends State<VignettePassPage> {
                       itemBuilder: (context, index) {
                         final vignette = sortedVignettes[index];
 
-                        final rawType = vignette.vignetteTypes.isNotEmpty ? vignette.vignetteTypes.first : '';
-
-                        final title = _formatVignetteTitle(rawType);
-
-                        final price = '${vignette.sum.toInt().toString()} Ft';
+                        final title = _formatVignetteTitle(vignette);
+                        final price = '${vignette.sum.toInt()} Ft';
 
                         return _buildRadioTile(value: vignette, title: title, price: price);
                       },
                     ),
                   ),
                   SizedBox(height: _applicationConfig.spacing3),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: _applicationConfig.primaryButtonColor,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                      ),
-                      onPressed:
-                          () => navigationService.goToPurchaseConfirmationPage(
-                            selectedVignettes: [
-                              SelectableVignette(
-                                name: _formatVignetteTitle(_selectedVignette!.vignetteTypes.first),
-                                price: _selectedVignette!.sum,
-                              ),
-                            ],
-                          ),
-                      child: Text('Vásárlás', style: _applicationConfig.heading4S.copyWith(color: Colors.white)),
-                    ),
+                  AppButton.primary(
+                    text: 'Vásárlás',
+                    onPressed:
+                        () => navigationService.goToPurchaseConfirmationPage(
+                          selectedVignettes: [_selectedVignette!],
+                        ),
+                    disabled: _selectedVignette == null,
                   ),
                   SizedBox(height: _applicationConfig.spacing3),
                   VignetteCard(
@@ -99,7 +88,6 @@ class _VignettePassPageState extends State<VignettePassPage> {
                       onTap:
                           () => NavigationService.of(context).goToAnnualCountyPage(
                             vehicleInfo: state.vehicleInfo,
-                            counties: highwayInfo.counties,
                             vignettes: highwayInfo.vignettesWithYear,
                           ),
                     ),
@@ -117,11 +105,15 @@ class _VignettePassPageState extends State<VignettePassPage> {
     );
   }
 
-  Widget _buildRadioTile({required HighwayVignette value, required String title, required String price}) {
-    return RadioListTile<HighwayVignette>(
+  Widget _buildRadioTile({
+    required FlattenedVignette value,
+    required String title,
+    required String price,
+  }) {
+    return RadioListTile<FlattenedVignette>(
       value: value,
       groupValue: _selectedVignette,
-      onChanged: (HighwayVignette? newValue) {
+      onChanged: (newValue) {
         setState(() {
           _selectedVignette = newValue!;
         });
@@ -132,18 +124,18 @@ class _VignettePassPageState extends State<VignettePassPage> {
     );
   }
 
-  String _formatVignetteTitle(String vignetteType) {
-    switch (vignetteType) {
+  String _formatVignetteTitle(FlattenedVignette vignette) {
+    switch (vignette.type) {
       case 'DAY':
-        return 'D1 - napi (1 napos)';
+        return '${vignette.category} - napi (1 napos)';
       case 'WEEK':
-        return 'D1 - heti (10 napos)';
+        return '${vignette.category} - heti (10 napos)';
       case 'MONTH':
-        return 'D1 - havi';
+        return '${vignette.category} - havi';
       case 'YEAR':
-        return 'D1 - éves';
+        return '${vignette.category} - éves';
       default:
-        return 'D1 - $vignetteType';
+        return '${vignette.category} - ${vignette.type}';
     }
   }
 }

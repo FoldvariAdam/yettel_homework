@@ -5,25 +5,30 @@ import 'package:vignette_pass/index.dart';
 
 class AnnualCountyPassPage extends StatefulWidget {
   final VehicleInfo vehicleInfo;
-  final List<County> counties;
-  final List<HighwayVignette> vignettes;
+  final List<FlattenedVignette> vignettes;
 
-  const AnnualCountyPassPage({required this.vehicleInfo, required this.counties, required this.vignettes, super.key});
+  const AnnualCountyPassPage({
+    required this.vehicleInfo,
+    required this.vignettes,
+    super.key,
+  });
 
   @override
   _AnnualCountyPassPageState createState() => _AnnualCountyPassPageState();
 }
 
 class _AnnualCountyPassPageState extends State<AnnualCountyPassPage> {
-  final ApplicationConfig _applicationConfig = GetIt.instance.get<ApplicationConfig>();
+  final ApplicationConfig _applicationConfig =
+      GetIt.instance.get<ApplicationConfig>();
 
-  late List<SelectableVignette> _selectableCounties;
+  late List<FlattenedVignette> _countyVignettes;
 
   @override
   void initState() {
     super.initState();
 
-    _selectableCounties = _buildSelectableCounties(counties: widget.counties, vignettes: widget.vignettes);
+    _countyVignettes =
+        widget.vignettes.map((v) => v.changeSelected(selected: false)).toList();
   }
 
   @override
@@ -35,21 +40,32 @@ class _AnnualCountyPassPageState extends State<AnnualCountyPassPage> {
         children: [
           Text('Éves vármegyei matricák', style: _applicationConfig.heading5L),
           SizedBox(height: _applicationConfig.spacing1),
-          Center(child: SvgPicture.asset('assets/hungary_map.svg', height: 150)),
+          Center(
+            child: SvgPicture.asset('assets/hungary_map.svg', height: 150),
+          ),
           SizedBox(height: _applicationConfig.spacing1),
           Expanded(
             child: ListView.builder(
-              itemCount: _selectableCounties.length,
+              itemCount: _countyVignettes.length,
               itemBuilder: (context, index) {
-                final item = _selectableCounties[index];
+                final item = _countyVignettes[index];
+
                 return CheckboxListTile(
-                  title: Text(item.name, style: _applicationConfig.bodyTextStyle),
-                  subtitle: Text('${item.price.toStringAsFixed(0)} Ft', style: _applicationConfig.heading5L),
+                  title: Text(
+                    item.name,
+                    style: _applicationConfig.bodyTextStyle,
+                  ),
+                  subtitle: Text(
+                    '${item.sum.toStringAsFixed(0)} Ft',
+                    style: _applicationConfig.heading5L,
+                  ),
                   value: item.selected,
                   activeColor: Colors.black,
-                  onChanged: (bool? value) {
+                  onChanged: (bool? newValue) {
                     setState(() {
-                      item.selected = value ?? false;
+                      _countyVignettes[index] = item.changeSelected(
+                        selected: newValue ?? false,
+                      );
                     });
                   },
                 );
@@ -58,42 +74,28 @@ class _AnnualCountyPassPageState extends State<AnnualCountyPassPage> {
           ),
           SizedBox(height: _applicationConfig.spacing1),
           Text('Fizetendő összeg', style: _applicationConfig.heading7S),
-          Text('${_getSelectedTotalPrice().toStringAsFixed(0)} Ft', style: _applicationConfig.heading2S),
+          Text(
+            '${_getSelectedTotalPrice().toStringAsFixed(0)} Ft',
+            style: _applicationConfig.heading2S,
+          ),
           SizedBox(height: _applicationConfig.spacing3),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-              ),
-              onPressed:
-                  () => NavigationService.of(
-                    context,
-                  ).goToPurchaseConfirmationPage(selectedVignettes: _selectableCounties.where((county) => county.selected).toList()),
-              child: const Text('Tovább'),
-            ),
+          AppButton.primary(
+            text: 'Tovább',
+            onPressed:
+                () =>
+                    NavigationService.of(context).goToPurchaseConfirmationPage(
+                      selectedVignettes:
+                          _countyVignettes
+                              .where((county) => county.selected)
+                              .toList(),
+                    ),
           ),
         ],
       ),
     );
   }
 
-  List<SelectableVignette> _buildSelectableCounties({
-    required List<County> counties,
-    required List<HighwayVignette> vignettes,
-  }) {
-    final countyVignette = vignettes.firstWhere(
-      (v) => v.vignetteTypes.any((type) => type.startsWith('YEAR_')),
-      orElse: () => throw Exception('No county vignette found'),
-    );
-
-    return counties.map((county) {
-      final isIncluded = countyVignette.vignetteTypes.contains(county.id);
-      return SelectableVignette(name: county.name, price: isIncluded ? countyVignette.sum : 0.0);
-    }).toList();
-  }
-
-  double _getSelectedTotalPrice() => _selectableCounties.where((c) => c.selected).fold(0.0, (sum, c) => sum + c.price);
+  double _getSelectedTotalPrice() => _countyVignettes
+      .where((c) => c.selected)
+      .fold(0.0, (sum, c) => sum + c.sum);
 }

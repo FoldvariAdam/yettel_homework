@@ -6,17 +6,13 @@ void registerServices() {
   final services = GetIt.instance;
 
   services.registerSingleton<ApplicationConfig>(ApplicationConfig());
-  services.registerSingleton<VehicleCategoryCache>(VehicleCategoryCache());
 }
 
 void registerBlocs() {
   final services = GetIt.instance;
 
   services.registerSingleton<VignettePassInteractor>(
-    VignettePassInteractor(
-      vignetteApi: services.get<VignetteApi>(),
-      vehicleCategoryCache: services.get<VehicleCategoryCache>(),
-    ),
+    VignettePassInteractor(vignetteApi: services.get<VignetteApi>()),
   );
 
   services.registerFactory<VignettePassBloc>(
@@ -24,21 +20,21 @@ void registerBlocs() {
   );
 
   services.registerSingleton<PurchaseConfirmationInteractor>(
-    PurchaseConfirmationInteractor(
-      vignetteApi: services.get<VignetteApi>(),
-      vehicleCategoryCache: services.get<VehicleCategoryCache>(),
-    ),
+    PurchaseConfirmationInteractor(vignetteApi: services.get<VignetteApi>()),
   );
 
   services.registerFactory<PurchaseConfirmationBloc>(
-    () => PurchaseConfirmationBloc(purchaseConfirmationInteractor: services.get<PurchaseConfirmationInteractor>()),
+    () => PurchaseConfirmationBloc(
+      purchaseConfirmationInteractor: services.get<PurchaseConfirmationInteractor>(),
+    ),
   );
 }
 
 void registerApisBeforeRunApp() {
   final services = GetIt.instance;
 
-  final vignetteApi = HighwayVignetteApi(basePathOverride: '').getVignetteApi();
+  final vignetteApi =
+      HighwayVignetteApi(basePathOverride: '').getVignetteApi();
 
   services.registerSingleton<VignetteApi>(vignetteApi);
 }

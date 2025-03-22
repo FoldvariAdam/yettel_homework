@@ -3,9 +3,6 @@ import 'package:vignette_pass/index.dart';
 
 extension VehicleInfoMapper on GetVehicleInfo200Response {
   VehicleInfo toCar() {
-    return VehicleInfo(
-      name: name ?? '',
-      plate: plate ?? '',
-    );
+    return VehicleInfo(name: name ?? '', plate: plate ?? '');
   }
 }

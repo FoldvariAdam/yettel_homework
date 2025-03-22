@@ -20,22 +20,29 @@ class NavigationService {
 
   void goToAnnualCountyPage({
     required VehicleInfo vehicleInfo,
-    required List<County> counties,
-    required List<HighwayVignette> vignettes,
+    required List<FlattenedVignette> vignettes,
   }) {
     _goToPageImpl(
       context: context,
       routeName: NavigationRoutes.annualCounty,
-      extra: {'vehicleInfo': vehicleInfo, 'counties': counties, 'vignettes': vignettes},
+      extra: {'vehicleInfo': vehicleInfo, 'vignettes': vignettes},
     );
   }
 
   void goToPaymentSuccessPage() {
-    _goToPageImpl(context: context, routeName: NavigationRoutes.paymentSuccess, withoutStacking: true);
+    _goToPageImpl(
+      context: context,
+      routeName: NavigationRoutes.paymentSuccess,
+      withoutStacking: true,
+    );
   }
 
-  void goToPurchaseConfirmationPage({required List<SelectableVignette> selectedVignettes}) {
-    _goToPageImpl(context: context, routeName: NavigationRoutes.purchaseConfirmation, extra: selectedVignettes);
+  void goToPurchaseConfirmationPage({required List<FlattenedVignette> selectedVignettes}) {
+    _goToPageImpl(
+      context: context,
+      routeName: NavigationRoutes.purchaseConfirmation,
+      extra: selectedVignettes,
+    );
   }
 
   void goToVignettePage() {

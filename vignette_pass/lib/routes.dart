@@ -24,25 +24,23 @@ GoRouter createRouterConfig() {
             builder: (context, state) {
               final extras = state.extra as Map<String, Object?>;
               final vehicleInfo = extras['vehicleInfo'] as VehicleInfo;
-              final counties = extras['counties'] as List<County>;
-              final vignettes = extras['vignettes'] as List<HighwayVignette>;
+              final vignettes = extras['vignettes'] as List<FlattenedVignette>;
 
-              return AnnualCountyPassPage(vehicleInfo: vehicleInfo, counties: counties, vignettes: vignettes);
+              return AnnualCountyPassPage(vehicleInfo: vehicleInfo, vignettes: vignettes);
             },
           ),
           GoRoute(
             name: NavigationRoutes.purchaseConfirmation,
             path: '/${NavigationRoutes.purchaseConfirmation}',
             builder: (context, state) {
-              final selectedVignettes = state.extra as List<SelectableVignette>;
-
+              final selectedVignettes = state.extra as List<FlattenedVignette>;
               return PurchaseConfirmationPage(selectedVignettes: selectedVignettes);
             },
           ),
           GoRoute(
             name: NavigationRoutes.paymentSuccess,
             path: '/${NavigationRoutes.paymentSuccess}',
-            builder: (context, state) => const PaymentSuccessPage(),
+            builder: (context, state) => PaymentSuccessPage(),
           ),
         ],
       ),

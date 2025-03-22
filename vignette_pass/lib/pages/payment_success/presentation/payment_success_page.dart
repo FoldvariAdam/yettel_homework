@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:vignette_pass/index.dart';
 
 class PaymentSuccessPage extends StatelessWidget {
-  const PaymentSuccessPage({super.key});
+  final ApplicationConfig _applicationConfig = GetIt.instance.get<ApplicationConfig>();
+
+  PaymentSuccessPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,32 +20,20 @@ class PaymentSuccessPage extends StatelessWidget {
               const Spacer(),
               const Text(
                 'A matricákat sikeresen kifizetted!',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: _applicationConfig.spacing3),
               // SvgPicture.asset(
-              //   'assets/payment_success.svg', // SVG illusztráció elérési útja
+              //   'assets/payment_success.svg',
               //   height: 200,
               // ),
               const Spacer(),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  onPressed: NavigationService.of(context).goToVignettePage,
-                  child: const Text('Rendben'),
-                ),
+              AppButton.primary(
+                text: 'Rendben',
+                onPressed: NavigationService.of(context).goToVignettePage,
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: _applicationConfig.spacing3),
             ],
           ),
         ),

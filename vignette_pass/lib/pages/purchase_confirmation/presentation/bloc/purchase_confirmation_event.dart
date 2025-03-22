@@ -7,10 +7,10 @@ sealed class PurchaseConfirmationEvent extends Equatable {
 }
 
 final class PurchaseConfirmationPostHighwayOrderEvent extends PurchaseConfirmationEvent {
-  final PostHighwayOrderRequest postHighwayOrder;
+  final List<FlattenedVignette> flattenedVignette;
 
-  PurchaseConfirmationPostHighwayOrderEvent({required this.postHighwayOrder});
+  PurchaseConfirmationPostHighwayOrderEvent({required this.flattenedVignette});
 
   @override
-  List<Object?> get props => [postHighwayOrder];
+  List<Object?> get props => [flattenedVignette];
 }

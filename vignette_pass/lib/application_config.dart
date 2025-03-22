@@ -15,17 +15,9 @@ class ApplicationConfig {
   late final TextStyle heading5L;
 
   ApplicationConfig() {
-    highlightedTextStyle = TextStyle(
-      fontWeight: FontWeight.w300,
-      fontSize: 16.0,
-      color: mainColor,
-    );
+    highlightedTextStyle = TextStyle(fontWeight: FontWeight.w300, fontSize: 16.0, color: mainColor);
 
-    bodyTextStyle = TextStyle(
-      fontWeight: FontWeight.w300,
-      fontSize: 12.0,
-      color: mainColor,
-    );
+    bodyTextStyle = TextStyle(fontWeight: FontWeight.w300, fontSize: 12.0, color: mainColor);
 
     heading2S = TextStyle(
       fontWeight: FontWeight.w600,
@@ -34,26 +26,17 @@ class ApplicationConfig {
       color: mainColor,
     );
 
-    heading4S = TextStyle(
-      fontWeight: FontWeight.w600,
-      fontSize: 20.0,
-      color: mainColor,
-    );
+    heading4S = TextStyle(fontWeight: FontWeight.w600, fontSize: 20.0, color: mainColor);
 
-    heading7S = TextStyle(
-      fontWeight: FontWeight.w700,
-      fontSize: 12.0,
-      color: mainColor,
-    );
+    heading7S = TextStyle(fontWeight: FontWeight.w700, fontSize: 12.0, color: mainColor);
 
-    heading5L = TextStyle(
-      fontWeight: FontWeight.w600,
-      fontSize: 16.0,
-      color: mainColor,
-    );
+    heading5L = TextStyle(fontWeight: FontWeight.w600, fontSize: 16.0, color: mainColor);
   }
 
   BorderRadiusGeometry borderRadius = BorderRadius.circular(12);
+
+  /// 5px spacing
+  final double spacing0 = 10;
 
   /// 10px spacing
   final double spacing1 = 10;

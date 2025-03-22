@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:highway_vignette_api/highway_vignette_api.dart';
 import 'package:vignette_pass/index.dart';
 
 class PurchaseConfirmationPage extends StatelessWidget {
   final ApplicationConfig _applicationConfig = GetIt.instance.get<ApplicationConfig>();
 
-  final List<SelectableVignette> selectedVignettes;
+  final List<FlattenedVignette> selectedVignettes;
 
   PurchaseConfirmationPage({required this.selectedVignettes, super.key});
 
@@ -15,15 +14,13 @@ class PurchaseConfirmationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final navigationService = NavigationService.of(context);
 
-    final int totalPrice = selectedVignettes.fold<int>(Fees.systemFee, (sum, county) => sum + county.price.toInt());
-
-    selectedVignettes.add(SelectableVignette(name: 'Rendszerhasználati díj', price: Fees.systemFee.toDouble()));
+    final int totalPrice = selectedVignettes.fold(Fees.systemFee, (sum, v) => sum + v.sum.toInt());
 
     return BlocProvider(
       create: (context) => GetIt.instance.get<PurchaseConfirmationBloc>(),
       child: BlocListener<PurchaseConfirmationBloc, PurchaseConfirmationState>(
         listener: (context, state) {
-          if(state is PurchaseConfirmationSuccessfulState) {
+          if (state is PurchaseConfirmationSuccessfulState) {
             NavigationService.of(context).goToPaymentSuccessPage();
           }
         },
@@ -33,44 +30,56 @@ class PurchaseConfirmationPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Vásárlás megerősítése', style: _applicationConfig.heading4S),
-              SizedBox(height: _applicationConfig.spacing1),
+              const Divider(),
+              SizedBox(height: _applicationConfig.spacing0),
               _buildDetailRow(title: 'Rendszám', value: 'ABC 123'),
               _buildDetailRow(title: 'Matrica típusa', value: 'Éves vármegyei'),
-              SizedBox(height: _applicationConfig.spacing1),
+              SizedBox(height: _applicationConfig.spacing0),
+              const Divider(),
+              SizedBox(height: _applicationConfig.spacing3),
               Expanded(
-                child: ListView.builder(
-                  itemCount: selectedVignettes.length,
-                  itemBuilder: (context, index) {
-                    final vignette = selectedVignettes[index];
-                    return _buildVignetteRow(county: vignette.name, price: vignette.price.toInt());
-                  },
+                child: ListView(
+                  children: [
+                    ...selectedVignettes.map((v) {
+                      final name = v.name;
+                      return _buildVignetteRow(county: name, price: v.sum.toInt());
+                    }),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Rendszerhasználati díj',
+                            style: _applicationConfig.highlightedTextStyle,
+                          ),
+                          Text('${Fees.systemFee} Ft', style: _applicationConfig.bodyTextStyle),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(height: _applicationConfig.spacing3),
               Text('Fizetendő összeg', style: _applicationConfig.heading7S),
               Text('$totalPrice Ft', style: _applicationConfig.heading2S),
               SizedBox(height: _applicationConfig.spacing3),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  onPressed: () => context.read<PurchaseConfirmationBloc>().add(PurchaseConfirmationPostHighwayOrderEvent(postHighwayOrder: PostHighwayOrderRequest())),
-                  child: const Text('Tovább'),
-                ),
+              Builder(
+                builder: (context) {
+                  return AppButton.primary(
+                    text: 'Tovább',
+                    onPressed: () {
+                      context.read<PurchaseConfirmationBloc>().add(
+                        PurchaseConfirmationPostHighwayOrderEvent(
+                          flattenedVignette: selectedVignettes,
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
               SizedBox(height: _applicationConfig.spacing1),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 16)),
-                  onPressed: navigationService.goBack,
-                  child: const Text('Mégsem'),
-                ),
-              ),
+              AppButton.secondary(text: 'Mégsem', onPressed: navigationService.goBack),
             ],
           ),
         ),
