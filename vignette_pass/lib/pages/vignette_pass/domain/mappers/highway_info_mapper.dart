@@ -9,6 +9,7 @@ extension HighwayInfoMapper on GetHighwayInfo200Response? {
     v.vignetteType?.any((type) => type.contains('YEAR')) ?? false
     ).map((v) => HighwayVignette(
       vignetteTypes: List<String>.from(v.vignetteType ?? []),
+      vehicleCategory: v.vehicleCategory ?? '',
       sum: v.sum?.toDouble() ?? 0.0,
     )).toList();
 
@@ -16,6 +17,7 @@ extension HighwayInfoMapper on GetHighwayInfo200Response? {
     v.vignetteType?.every((type) => !type.contains('YEAR')) ?? true
     ).map((v) => HighwayVignette(
       vignetteTypes: List<String>.from(v.vignetteType ?? []),
+      vehicleCategory: v.vehicleCategory ?? '',
       sum: v.sum?.toDouble() ?? 0.0,
     )).toList();
 

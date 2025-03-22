@@ -11,7 +11,7 @@ class VignettePassBloc extends Bloc<VignettePassEvent, VignettePassState> {
   final VignettePassInteractor vignettePassInteractor;
 
   VignettePassBloc({required this.vignettePassInteractor}) : super(VignettePassInitialState()) {
-    on<VignettePassGetEvent>((event, emit) async {
+    on<VignettePassGetVehicleHighwayInfoEvent>((event, emit) async {
       emit(VignettePassLoadingState());
       try {
         final vehicleInfo = await vignettePassInteractor.getVehicleInfo();

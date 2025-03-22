@@ -6,4 +6,4 @@ sealed class VignettePassEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-final class VignettePassGetEvent extends VignettePassEvent {}
+final class VignettePassGetVehicleHighwayInfoEvent extends VignettePassEvent {}

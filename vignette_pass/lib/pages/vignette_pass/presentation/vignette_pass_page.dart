@@ -22,7 +22,7 @@ class _VignettePassPageState extends State<VignettePassPage> {
     final navigationService = NavigationService.of(context);
 
     return BlocProvider(
-      create: (context) => GetIt.instance.get<VignettePassBloc>()..add(VignettePassGetEvent()),
+      create: (context) => GetIt.instance.get<VignettePassBloc>()..add(VignettePassGetVehicleHighwayInfoEvent()),
       child: BlocBuilder<VignettePassBloc, VignettePassState>(
         builder: (context, state) {
           if (state is VignettePassLoadedState) {
