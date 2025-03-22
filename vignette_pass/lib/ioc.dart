@@ -9,10 +9,16 @@ void registerServices() {
 }
 
 void registerBlocs() {
+  final services = GetIt.instance;
 
+  services.registerSingleton<VignettePassInteractor>(VignettePassInteractor(vignetteApi: services.get<VignetteApi>()));
+
+  services.registerFactory<VignettePassBloc>(
+    () => VignettePassBloc(vignettePassInteractor: services.get<VignettePassInteractor>()),
+  );
 }
 
-Future<void> registerApisBeforeRunApp() async {
+void registerApisBeforeRunApp() {
   final services = GetIt.instance;
 
   final vignetteApi = HighwayVignetteApi(basePathOverride: '').getVignetteApi();

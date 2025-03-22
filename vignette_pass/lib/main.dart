@@ -4,9 +4,9 @@ import 'package:get_it/get_it.dart';
 import 'package:vignette_pass/index.dart';
 import 'package:go_router/go_router.dart';
 
-Future<void> main() async {
+void main() {
   registerServices();
-  await registerApisBeforeRunApp();
+  registerApisBeforeRunApp();
   registerBlocs();
   runApp(MyApp());
 }
