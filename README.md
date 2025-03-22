@@ -73,7 +73,7 @@ void registerApisBeforeRunApp() {
   final ip = dotenv.env['IP'] ?? 'localhost';
 
   final vignetteApi = HighwayVignetteApi(
-    basePathOverride: '$ip:$port',
+    basePathOverride: 'http://$ip:8080',
   ).getVignetteApi();
 
   services.registerSingleton<VignetteApi>(vignetteApi);
@@ -116,7 +116,7 @@ void registerApisBeforeRunApp() {
   final ip = '10.0.2.2';
 
   final vignetteApi = HighwayVignetteApi(
-    basePathOverride: '$ip:$port',
+    basePathOverride: 'http://$ip:8080',
   ).getVignetteApi();
 
   services.registerSingleton<VignetteApi>(vignetteApi);
