@@ -6,15 +6,32 @@ void registerServices() {
   final services = GetIt.instance;
 
   services.registerSingleton<ApplicationConfig>(ApplicationConfig());
+  services.registerSingleton<VehicleCategoryCache>(VehicleCategoryCache());
 }
 
 void registerBlocs() {
   final services = GetIt.instance;
 
-  services.registerSingleton<VignettePassInteractor>(VignettePassInteractor(vignetteApi: services.get<VignetteApi>()));
+  services.registerSingleton<VignettePassInteractor>(
+    VignettePassInteractor(
+      vignetteApi: services.get<VignetteApi>(),
+      vehicleCategoryCache: services.get<VehicleCategoryCache>(),
+    ),
+  );
 
   services.registerFactory<VignettePassBloc>(
     () => VignettePassBloc(vignettePassInteractor: services.get<VignettePassInteractor>()),
+  );
+
+  services.registerSingleton<PurchaseConfirmationInteractor>(
+    PurchaseConfirmationInteractor(
+      vignetteApi: services.get<VignetteApi>(),
+      vehicleCategoryCache: services.get<VehicleCategoryCache>(),
+    ),
+  );
+
+  services.registerFactory<PurchaseConfirmationBloc>(
+    () => PurchaseConfirmationBloc(purchaseConfirmationInteractor: services.get<PurchaseConfirmationInteractor>()),
   );
 }
 
