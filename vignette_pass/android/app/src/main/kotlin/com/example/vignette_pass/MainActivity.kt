@@ -1,4 +1,4 @@
-package com.example.toll_pass
+package com.example.vignette_pass
 
 import io.flutter.embedding.android.FlutterActivity
 
