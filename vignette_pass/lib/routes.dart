@@ -11,9 +11,7 @@ GoRouter createRouterConfig() {
     routes: [
       ShellRoute(
         navigatorKey: _appShellNavigatorKey,
-        builder: (context, state, widget) => AppShellPage(
-          child: widget,
-        ),
+        builder: (context, state, widget) => AppShellPage(child: widget),
         routes: [
           GoRoute(
             name: NavigationRoutes.vignette,
@@ -23,7 +21,14 @@ GoRouter createRouterConfig() {
           GoRoute(
             name: NavigationRoutes.annualCounty,
             path: '/${NavigationRoutes.annualCounty}',
-            builder: (context, state) => const AnnualCountyPassPage(),
+            builder: (context, state) {
+              final extras = state.extra as Map<String, Object?>;
+              final vehicleInfo = extras['vehicleInfo'] as VehicleInfo;
+              final counties = extras['counties'] as List<County>;
+              final vignettes = extras['vignettes'] as List<HighwayVignette>;
+
+              return AnnualCountyPassPage(vehicleInfo: vehicleInfo, counties: counties, vignettes: vignettes);
+            },
           ),
           GoRoute(
             name: NavigationRoutes.purchaseConfirmation,

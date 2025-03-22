@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vignette_pass/index.dart';
 
 class NavigationRoutes {
   static const annualCounty = 'annualCounty';
@@ -17,33 +18,28 @@ class NavigationService {
 
   void goBack<T extends Object?>([T? result]) => GoRouter.of(context).pop(result);
 
-
-  void goToAnnualCountyPage() {
+  void goToAnnualCountyPage({
+    required VehicleInfo vehicleInfo,
+    required List<County> counties,
+    required List<HighwayVignette> vignettes,
+  }) {
     _goToPageImpl(
       context: context,
       routeName: NavigationRoutes.annualCounty,
+      extra: {'vehicleInfo': vehicleInfo, 'counties': counties, 'vignettes': vignettes},
     );
   }
 
   void goToPaymentSuccessPage() {
-    _goToPageImpl(
-      context: context,
-      routeName: NavigationRoutes.paymentSuccess,
-    );
+    _goToPageImpl(context: context, routeName: NavigationRoutes.paymentSuccess);
   }
 
   void goToPurchaseConfirmationPage() {
-    _goToPageImpl(
-      context: context,
-      routeName: NavigationRoutes.purchaseConfirmation,
-    );
+    _goToPageImpl(context: context, routeName: NavigationRoutes.purchaseConfirmation);
   }
 
   void goToVignettePage() {
-    _goToPageImpl(
-      context: context,
-      routeName: NavigationRoutes.vignette,
-    );
+    _goToPageImpl(context: context, routeName: NavigationRoutes.vignette);
   }
 
   void _goToPageImpl({
@@ -55,10 +51,7 @@ class NavigationService {
   }) {
     final currentRoute = _getCurrentRoute(context);
 
-    final newRoute = context.namedLocation(
-      routeName,
-      pathParameters: params,
-    );
+    final newRoute = context.namedLocation(routeName, pathParameters: params);
 
     // Avoid triggering the redirect logic if navigating to the same page
     if (currentRoute == newRoute) {
@@ -67,22 +60,14 @@ class NavigationService {
 
     if (withoutStacking == true) {
       // Replaces the current navigation stack
-      context.goNamed(
-        routeName,
-        extra: extra,
-        pathParameters: params,
-      );
+      context.goNamed(routeName, extra: extra, pathParameters: params);
     } else {
       // Stacks one page on another in navigation
-      context.pushNamed(
-        routeName,
-        extra: extra,
-        pathParameters: params,
-      );
+      context.pushNamed(routeName, extra: extra, pathParameters: params);
     }
   }
 
   String _getCurrentRoute(BuildContext context) {
-    return  GoRouterState.of(context).uri.toString();
+    return GoRouterState.of(context).uri.toString();
   }
 }

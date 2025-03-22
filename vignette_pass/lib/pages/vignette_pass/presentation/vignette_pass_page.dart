@@ -27,7 +27,8 @@ class _VignettePassPageState extends State<VignettePassPage> {
         builder: (context, state) {
           if (state is VignettePassLoadedState) {
             final vehicleInfo = state.vehicleInfo;
-            final vignettesWithoutYear = state.highwayInfo.vignettesWithoutYear;
+            final highwayInfo = state.highwayInfo;
+            final vignettesWithoutYear = highwayInfo.vignettesWithoutYear;
 
             final sortedVignettes = List<HighwayVignette>.from(vignettesWithoutYear)..sort((a, b) {
               final aType = a.vignetteTypes.firstWhere(_vignettePriority.containsKey, orElse: () => '');
@@ -50,7 +51,7 @@ class _VignettePassPageState extends State<VignettePassPage> {
                     ),
                   ),
                   SizedBox(height: _applicationConfig.spacing3),
-                  Text('Országos matricák', style: _applicationConfig.headingL),
+                  Text('Országos matricák', style: _applicationConfig.heading5L),
                   VignetteCard(
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -79,15 +80,20 @@ class _VignettePassPageState extends State<VignettePassPage> {
                         padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
                       onPressed: navigationService.goToPurchaseConfirmationPage,
-                      child: Text('Vásárlás', style: _applicationConfig.headingS),
+                      child: Text('Vásárlás', style: _applicationConfig.heading4S),
                     ),
                   ),
                   SizedBox(height: _applicationConfig.spacing3),
                   VignetteCard(
                     child: ListTile(
-                      title: Text('Éves vármegyei matricák', style: _applicationConfig.headingL),
+                      title: Text('Éves vármegyei matricák', style: _applicationConfig.heading5L),
                       trailing: const Icon(Icons.arrow_forward_ios),
-                      onTap: NavigationService.of(context).goToAnnualCountyPage,
+                      onTap:
+                          () => NavigationService.of(context).goToAnnualCountyPage(
+                            vehicleInfo: state.vehicleInfo,
+                            counties: highwayInfo.counties,
+                            vignettes: highwayInfo.vignettesWithYear,
+                          ),
                     ),
                   ),
                 ],
@@ -113,7 +119,7 @@ class _VignettePassPageState extends State<VignettePassPage> {
         });
       },
       title: Text(title, style: _applicationConfig.highlightedTextStyle),
-      subtitle: Text(price, style: _applicationConfig.headingL),
+      subtitle: Text(price, style: _applicationConfig.heading5L),
       activeColor: _applicationConfig.mainColor,
     );
   }
