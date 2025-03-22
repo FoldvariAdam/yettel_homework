@@ -35,10 +35,27 @@ extension FlattenVignettes on List<GetHighwayInfo200ResponsePayloadHighwayVignet
               vehicleCategory: vehicleCategory,
               category: vignetteCategory,
               sum: sum,
-              name: countyNameMap[type] ?? '',
+              name:
+                  countyNameMap[type] ??
+                  _formatVignetteTitle(type: type, category: vignetteCategory),
             );
           }) ??
           <FlattenedVignette>[];
     }).toList();
+  }
+
+  String _formatVignetteTitle({required String type, required String category}) {
+    switch (type) {
+      case 'DAY':
+        return '$category - napi (1 napos)';
+      case 'WEEK':
+        return '$category - heti (10 napos)';
+      case 'MONTH':
+        return '$category - havi';
+      case 'YEAR':
+        return '$category - éves';
+      default:
+        return '$category - $type';
+    }
   }
 }

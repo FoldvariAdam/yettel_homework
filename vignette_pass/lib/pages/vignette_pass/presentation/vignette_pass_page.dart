@@ -64,10 +64,9 @@ class _VignettePassPageState extends State<VignettePassPage> {
                       itemBuilder: (context, index) {
                         final vignette = sortedVignettes[index];
 
-                        final title = _formatVignetteTitle(vignette);
                         final price = '${vignette.sum.toInt()} Ft';
 
-                        return _buildRadioTile(value: vignette, title: title, price: price);
+                        return _buildRadioTile(value: vignette, price: price);
                       },
                     ),
                   ),
@@ -107,7 +106,6 @@ class _VignettePassPageState extends State<VignettePassPage> {
 
   Widget _buildRadioTile({
     required FlattenedVignette value,
-    required String title,
     required String price,
   }) {
     return RadioListTile<FlattenedVignette>(
@@ -118,24 +116,9 @@ class _VignettePassPageState extends State<VignettePassPage> {
           _selectedVignette = newValue!;
         });
       },
-      title: Text(title, style: _applicationConfig.highlightedTextStyle),
+      title: Text(value.name, style: _applicationConfig.highlightedTextStyle),
       subtitle: Text(price, style: _applicationConfig.heading5L),
       activeColor: _applicationConfig.mainColor,
     );
-  }
-
-  String _formatVignetteTitle(FlattenedVignette vignette) {
-    switch (vignette.type) {
-      case 'DAY':
-        return '${vignette.category} - napi (1 napos)';
-      case 'WEEK':
-        return '${vignette.category} - heti (10 napos)';
-      case 'MONTH':
-        return '${vignette.category} - havi';
-      case 'YEAR':
-        return '${vignette.category} - éves';
-      default:
-        return '${vignette.category} - ${vignette.type}';
-    }
   }
 }
