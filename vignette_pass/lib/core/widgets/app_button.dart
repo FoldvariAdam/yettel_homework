@@ -22,13 +22,11 @@ class AppButton extends StatelessWidget {
     final bool isEnabled = !disabled;
 
     const primaryEnabledBg = Color(0xFF002340);
-    const primaryDisabledBg = Color(0xFFD3D9DE);
-    const primaryDisabledText = Color(0xFF7A8A99);
+    const primaryDisabledBg = Color(0xFFCCD3D9);
+    const primaryDisabledText = Color(0xFF80919F);
 
-    const secondaryEnabledText = Color(0xFF002340);
-    const secondaryDisabledText = Color(0xFFD3D9DE);
-    const secondaryEnabledBorder = Color(0xFF002340);
-    const secondaryDisabledBorder = Color(0xFFD3D9DE);
+    const secondaryEnabledColor = Color(0xFF002340);
+    const secondaryDisabledColor = Color(0xFFCCD3D9);
 
     final backgroundColor =
         isPrimary ? (isEnabled ? primaryEnabledBg : primaryDisabledBg) : Colors.white;
@@ -36,12 +34,12 @@ class AppButton extends StatelessWidget {
     final textColor =
         isPrimary
             ? (isEnabled ? Colors.white : primaryDisabledText)
-            : (isEnabled ? secondaryEnabledText : secondaryDisabledText);
+            : (isEnabled ? secondaryEnabledColor : secondaryDisabledColor);
 
     final borderColor =
         isPrimary
             ? Colors.transparent
-            : (isEnabled ? secondaryEnabledBorder : secondaryDisabledBorder);
+            : (isEnabled ? secondaryEnabledColor : secondaryDisabledColor);
 
     return SizedBox(
       width: double.infinity,

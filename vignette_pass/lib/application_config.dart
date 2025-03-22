@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class ApplicationConfig {
   Color mainColor = const Color(0xFF002340);
+  Color primary = const Color(0xFFB4FF00);
   Color backgroundColor = const Color(0xFFF2F4F5);
   Color cardColor = const Color(0xFFFFFFFF);
   Color primaryButtonColor = const Color(0xFF002340);
@@ -34,6 +35,7 @@ class ApplicationConfig {
   }
 
   BorderRadiusGeometry borderRadius = BorderRadius.circular(12);
+  Radius headerBorderRadius = const Radius.circular(32);
 
   /// 5px spacing
   final double spacing0 = 10;

@@ -33,7 +33,11 @@ class PurchaseConfirmationPage extends StatelessWidget {
               const Divider(),
               SizedBox(height: _applicationConfig.spacing0),
               _buildDetailRow(title: 'Rendszám', value: 'ABC 123'),
-              _buildDetailRow(title: 'Matrica típusa', value: 'Éves vármegyei'),
+              _buildDetailRow(
+                title: 'Matrica típusa',
+                value:
+                    selectedVignettes.length != 1 ? 'Éves vármegyei' : selectedVignettes.first.name,
+              ),
               SizedBox(height: _applicationConfig.spacing0),
               const Divider(),
               SizedBox(height: _applicationConfig.spacing3),

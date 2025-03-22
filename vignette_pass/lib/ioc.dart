@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:highway_vignette_api/highway_vignette_api.dart';
 import 'package:vignette_pass/index.dart';
 import 'package:get_it/get_it.dart';
@@ -33,8 +34,10 @@ void registerBlocs() {
 void registerApisBeforeRunApp() {
   final services = GetIt.instance;
 
+  final String ip = dotenv.env['IP'] ?? 'localhost';
+
   final vignetteApi =
-      HighwayVignetteApi(basePathOverride: '').getVignetteApi();
+      HighwayVignetteApi(basePathOverride: 'http://$ip:8080').getVignetteApi();
 
   services.registerSingleton<VignetteApi>(vignetteApi);
 }

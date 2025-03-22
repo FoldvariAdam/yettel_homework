@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:vignette_pass/index.dart';
 import 'package:go_router/go_router.dart';
 
-void main() {
+Future<void> main() async {
+  await dotenv.load();
+
   registerServices();
   registerApisBeforeRunApp();
   registerBlocs();

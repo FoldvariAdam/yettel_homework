@@ -16,7 +16,7 @@ GoRouter createRouterConfig() {
           GoRoute(
             name: NavigationRoutes.vignette,
             path: '/${NavigationRoutes.vignette}',
-            builder: (context, state) => const VignettePassPage(),
+            builder: (context, state) => AppPageHeader(child: const VignettePassPage()),
           ),
           GoRoute(
             name: NavigationRoutes.annualCounty,
@@ -26,7 +26,7 @@ GoRouter createRouterConfig() {
               final vehicleInfo = extras['vehicleInfo'] as VehicleInfo;
               final vignettes = extras['vignettes'] as List<FlattenedVignette>;
 
-              return AnnualCountyPassPage(vehicleInfo: vehicleInfo, vignettes: vignettes);
+              return AppPageHeader(child: AnnualCountyPassPage(vehicleInfo: vehicleInfo, vignettes: vignettes));
             },
           ),
           GoRoute(
@@ -34,7 +34,7 @@ GoRouter createRouterConfig() {
             path: '/${NavigationRoutes.purchaseConfirmation}',
             builder: (context, state) {
               final selectedVignettes = state.extra as List<FlattenedVignette>;
-              return PurchaseConfirmationPage(selectedVignettes: selectedVignettes);
+              return AppPageHeader(child: PurchaseConfirmationPage(selectedVignettes: selectedVignettes));
             },
           ),
           GoRoute(

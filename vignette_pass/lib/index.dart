@@ -1,4 +1,5 @@
 export 'core/widgets/app_button.dart';
+export 'core/widgets/app_page_header.dart';
 export 'core/constants.dart';
 
 export 'pages/annual_county_pass/presentation/annual_county_pass_page.dart';
