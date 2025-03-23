@@ -1,4 +1,5 @@
 export 'core/widgets/app_button.dart';
+export 'core/widgets/app_error_display.dart';
 export 'core/widgets/app_page_header.dart';
 export 'core/constants.dart';
 export 'core/navigation_service.dart';

@@ -101,6 +101,14 @@ class _VignettePassPageState extends State<VignettePassPage> {
             );
           } else if (state is VignettePassLoadingState) {
             return Center(child: CircularProgressIndicator(color: _applicationConfig.mainColor));
+          } else if (state is VignettePassErrorState) {
+            return AppErrorDisplay(
+              error: state.exceptionMessage,
+              onRetry:
+                  () => context.read<VignettePassBloc>().add(
+                    VignettePassGetVehicleHighwayInfoEvent(),
+                  ),
+            );
           }
 
           return Container();

@@ -1,3 +1,4 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -26,6 +27,6 @@ class VignettePassBloc extends Bloc<VignettePassEvent, VignettePassState> {
       } catch (e) {
         emit(VignettePassErrorState('$e'));
       }
-    });
+    }, transformer: droppable());
   }
 }

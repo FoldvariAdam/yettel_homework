@@ -38,7 +38,7 @@ class ApplicationConfig {
   Radius headerBorderRadius = const Radius.circular(32);
 
   /// 5px spacing
-  final double spacing0 = 10;
+  final double spacing0 = 5;
 
   /// 10px spacing
   final double spacing1 = 10;
