@@ -75,6 +75,7 @@ class _VignettePassPageState extends State<VignettePassPage> {
                     text: 'Vásárlás',
                     onPressed:
                         () => navigationService.goToPurchaseConfirmationPage(
+                          vehicleInfo: vehicleInfo,
                           selectedVignettes: [_selectedVignette!],
                         ),
                     disabled: _selectedVignette == null,

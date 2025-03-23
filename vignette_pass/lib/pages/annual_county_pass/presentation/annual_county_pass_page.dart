@@ -84,6 +84,7 @@ class _AnnualCountyPassPageState extends State<AnnualCountyPassPage> {
             onPressed:
                 () =>
                     NavigationService.of(context).goToPurchaseConfirmationPage(
+                      vehicleInfo: widget.vehicleInfo,
                       selectedVignettes:
                           _countyVignettes
                               .where((county) => county.selected)

@@ -10,33 +10,42 @@ class PaymentSuccessPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.limeAccent,
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Spacer(),
-              const Text(
-                'A matricákat sikeresen kifizetted!',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
-                textAlign: TextAlign.center,
+      backgroundColor: _applicationConfig.primary,
+      body: Stack(
+        children: [
+          Center(
+            child: Padding(
+              padding: EdgeInsets.all(_applicationConfig.spacing2),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Spacer(),
+                  Text(
+                    'A matricákat sikeresen kifizetted!',
+                    style: _applicationConfig.heading2S,
+                    textAlign: TextAlign.left,
+                  ),
+                  SizedBox(height: _applicationConfig.spacing3),
+                  const Spacer(),
+                  AppButton.primary(
+                    text: 'Rendben',
+                    onPressed: NavigationService.of(context).goToVignettePage,
+                  ),
+                  SizedBox(height: _applicationConfig.spacing3),
+                ],
               ),
-              SizedBox(height: _applicationConfig.spacing3),
-              // SvgPicture.asset(
-              //   'assets/payment_success.svg',
-              //   height: 200,
-              // ),
-              const Spacer(),
-              AppButton.primary(
-                text: 'Rendben',
-                onPressed: NavigationService.of(context).goToVignettePage,
-              ),
-              SizedBox(height: _applicationConfig.spacing3),
-            ],
+            ),
           ),
-        ),
+          Image.asset('assets/success_confetti.png'),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 80),
+              child: Image.asset('assets/success.png'),
+            ),
+          ),
+        ],
       ),
     );
   }

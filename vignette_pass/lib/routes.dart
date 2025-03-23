@@ -26,15 +26,26 @@ GoRouter createRouterConfig() {
               final vehicleInfo = extras['vehicleInfo'] as VehicleInfo;
               final vignettes = extras['vignettes'] as List<FlattenedVignette>;
 
-              return AppPageHeader(child: AnnualCountyPassPage(vehicleInfo: vehicleInfo, vignettes: vignettes));
+              return AppPageHeader(
+                child: AnnualCountyPassPage(vehicleInfo: vehicleInfo, vignettes: vignettes),
+              );
             },
           ),
           GoRoute(
             name: NavigationRoutes.purchaseConfirmation,
             path: '/${NavigationRoutes.purchaseConfirmation}',
             builder: (context, state) {
-              final selectedVignettes = state.extra as List<FlattenedVignette>;
-              return AppPageHeader(child: PurchaseConfirmationPage(selectedVignettes: selectedVignettes));
+              final extras = state.extra as Map<String, Object?>;
+
+              final selectedVignettes = extras['selectedVignettes'] as List<FlattenedVignette>;
+              final vehicleInfo = extras['vehicleInfo'] as VehicleInfo;
+
+              return AppPageHeader(
+                child: PurchaseConfirmationPage(
+                  selectedVignettes: selectedVignettes,
+                  vehicleInfo: vehicleInfo,
+                ),
+              );
             },
           ),
           GoRoute(

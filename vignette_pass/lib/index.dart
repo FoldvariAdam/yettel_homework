@@ -1,6 +1,7 @@
 export 'core/widgets/app_button.dart';
 export 'core/widgets/app_page_header.dart';
 export 'core/constants.dart';
+export 'core/navigation_service.dart';
 
 export 'pages/annual_county_pass/presentation/annual_county_pass_page.dart';
 export 'pages/payment_success/presentation/payment_success_page.dart';
@@ -18,8 +19,6 @@ export 'pages/vignette_pass/domain/models/vehicle_info.dart';
 export 'pages/vignette_pass/presentation/bloc/vignette_pass_bloc.dart';
 export 'pages/vignette_pass/presentation/widgets/vignette_card.dart';
 export 'pages/vignette_pass/presentation/vignette_pass_page.dart';
-
-export 'services/navigation_service.dart';
 
 export 'app_shell_page.dart';
 export 'application_config.dart';

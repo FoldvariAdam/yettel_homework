@@ -7,8 +7,9 @@ class PurchaseConfirmationPage extends StatelessWidget {
   final ApplicationConfig _applicationConfig = GetIt.instance.get<ApplicationConfig>();
 
   final List<FlattenedVignette> selectedVignettes;
+  final VehicleInfo vehicleInfo;
 
-  PurchaseConfirmationPage({required this.selectedVignettes, super.key});
+  PurchaseConfirmationPage({required this.selectedVignettes, required this.vehicleInfo, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class PurchaseConfirmationPage extends StatelessWidget {
               Text('Vásárlás megerősítése', style: _applicationConfig.heading4S),
               const Divider(),
               SizedBox(height: _applicationConfig.spacing0),
-              _buildDetailRow(title: 'Rendszám', value: 'ABC 123'),
+              _buildDetailRow(title: 'Rendszám', value: vehicleInfo.plate),
               _buildDetailRow(
                 title: 'Matrica típusa',
                 value:

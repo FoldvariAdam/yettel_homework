@@ -37,11 +37,14 @@ class NavigationService {
     );
   }
 
-  void goToPurchaseConfirmationPage({required List<FlattenedVignette> selectedVignettes}) {
+  void goToPurchaseConfirmationPage({
+    required VehicleInfo vehicleInfo,
+    required List<FlattenedVignette> selectedVignettes,
+  }) {
     _goToPageImpl(
       context: context,
       routeName: NavigationRoutes.purchaseConfirmation,
-      extra: selectedVignettes,
+      extra: {'vehicleInfo': vehicleInfo, 'selectedVignettes': selectedVignettes},
     );
   }
 
