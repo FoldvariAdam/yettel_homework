@@ -14,8 +14,14 @@ class VignettePassBloc extends Bloc<VignettePassEvent, VignettePassState> {
     on<VignettePassGetVehicleHighwayInfoEvent>((event, emit) async {
       emit(VignettePassLoadingState());
       try {
-        final vehicleInfo = await vignettePassInteractor.getVehicleInfo();
-        final highwayInfo = await vignettePassInteractor.getHighwayInfo();
+        final results = await Future.wait([
+          vignettePassInteractor.getVehicleInfo(),
+          vignettePassInteractor.getHighwayInfo(),
+        ]);
+
+        final vehicleInfo = results[0] as VehicleInfo;
+        final highwayInfo = results[1] as HighwayInfo;
+
         emit(VignettePassLoadedState(vehicleInfo: vehicleInfo, highwayInfo: highwayInfo));
       } catch (e) {
         emit(VignettePassErrorState('$e'));

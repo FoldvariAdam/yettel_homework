@@ -9,7 +9,7 @@ Future<void> main() async {
   await dotenv.load();
 
   registerServices();
-  registerApisBeforeRunApp();
+  registerApis();
   registerBlocs();
   runApp(MyApp());
 }

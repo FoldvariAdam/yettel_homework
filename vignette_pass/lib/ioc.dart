@@ -31,7 +31,7 @@ void registerBlocs() {
   );
 }
 
-void registerApisBeforeRunApp() {
+void registerApis() {
   final services = GetIt.instance;
 
   final String ip = dotenv.env['IP'] ?? 'localhost';

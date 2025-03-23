@@ -56,28 +56,31 @@ class _VignettePassPageState extends State<VignettePassPage> {
                   ),
                   SizedBox(height: _applicationConfig.spacing3),
                   Text('Országos matricák', style: _applicationConfig.heading5L),
-                  VignetteCard(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: sortedVignettes.length,
-                      itemBuilder: (context, index) {
-                        final vignette = sortedVignettes[index];
 
-                        final price = '${vignette.sum.toInt()} Ft';
-
-                        return _buildRadioTile(value: vignette, price: price);
-                      },
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height * 0.4,
+                    ),
+                    child: VignetteCard(
+                      child: ListView.builder(
+                        itemCount: sortedVignettes.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          final vignette = sortedVignettes[index];
+                          final price = '${vignette.sum.toInt()} Ft';
+                          return _buildRadioTile(value: vignette, price: price);
+                        },
+                      ),
                     ),
                   ),
+
                   SizedBox(height: _applicationConfig.spacing3),
                   AppButton.primary(
                     text: 'Vásárlás',
-                    onPressed:
-                        () => navigationService.goToPurchaseConfirmationPage(
-                          vehicleInfo: vehicleInfo,
-                          selectedVignettes: [_selectedVignette!],
-                        ),
+                    onPressed: () => navigationService.goToPurchaseConfirmationPage(
+                      vehicleInfo: vehicleInfo,
+                      selectedVignettes: [_selectedVignette!],
+                    ),
                     disabled: _selectedVignette == null,
                   ),
                   SizedBox(height: _applicationConfig.spacing3),
@@ -85,18 +88,18 @@ class _VignettePassPageState extends State<VignettePassPage> {
                     child: ListTile(
                       title: Text('Éves vármegyei matricák', style: _applicationConfig.heading5L),
                       trailing: const Icon(Icons.arrow_forward_ios),
-                      onTap:
-                          () => NavigationService.of(context).goToAnnualCountyPage(
-                            vehicleInfo: state.vehicleInfo,
-                            vignettes: highwayInfo.vignettesWithYear,
-                          ),
+                      onTap: () => NavigationService.of(context).goToAnnualCountyPage(
+                        vehicleInfo: state.vehicleInfo,
+                        vignettes: highwayInfo.vignettesWithYear,
+                      ),
                     ),
                   ),
                 ],
               ),
             );
+
           } else if (state is VignettePassLoadingState) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator(color: _applicationConfig.mainColor));
           }
 
           return Container();
@@ -105,10 +108,7 @@ class _VignettePassPageState extends State<VignettePassPage> {
     );
   }
 
-  Widget _buildRadioTile({
-    required FlattenedVignette value,
-    required String price,
-  }) {
+  Widget _buildRadioTile({required FlattenedVignette value, required String price}) {
     return RadioListTile<FlattenedVignette>(
       value: value,
       groupValue: _selectedVignette,

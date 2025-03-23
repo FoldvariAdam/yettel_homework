@@ -25,9 +25,9 @@ class VignettePassInteractor {
       counties: counties,
     );
 
-    final withYear = flattened.where((v) => v.type.startsWith('YEAR_')).toList();
+    final withYear = flattened.where((v) => v.type.startsWith(IDs.year)).toList();
 
-    final withoutYear = flattened.where((v) => !v.type.startsWith('YEAR_')).toList();
+    final withoutYear = flattened.where((v) => !v.type.startsWith(IDs.year)).toList();
 
     return HighwayInfo(vignettesWithYear: withYear, vignettesWithoutYear: withoutYear);
   }

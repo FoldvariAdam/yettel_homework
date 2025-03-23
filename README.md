@@ -57,17 +57,17 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
   await dotenv.load();
-  registerApisBeforeRunApp();
+  registerApis();
   runApp(const MyApp());
 }
 ```
 
-### `registerApisBeforeRunApp()` vagy `ioc.dart`:
+### `registerApis()` vagy `ioc.dart`:
 
 ```dart
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void registerApisBeforeRunApp() {
+void registerApis() {
   final services = GetIt.instance;
 
   final ip = dotenv.env['IP'] ?? 'localhost';
@@ -105,11 +105,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
   // await dotenv.load();
-  registerApisBeforeRunApp();
+  registerApis();
   runApp(const MyApp());
 }
 
-void registerApisBeforeRunApp() {
+void registerApis() {
   final services = GetIt.instance;
 
   // final ip = dotenv.env['API_IP'] ?? 'localhost';
@@ -133,4 +133,3 @@ flutter run
 ```
 
 ---
-
