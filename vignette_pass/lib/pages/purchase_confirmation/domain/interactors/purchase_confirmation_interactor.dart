@@ -11,7 +11,7 @@ class PurchaseConfirmationInteractor {
         selectedVignettes.map((v) {
           return PostHighwayOrderRequestHighwayOrdersInner(
             type: v.type,
-            category: v.category,
+            category: v.vehicleCategory,
             cost: v.sum,
           );
         }).toList();
