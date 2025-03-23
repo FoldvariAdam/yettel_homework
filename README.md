@@ -10,7 +10,7 @@ Ez a dokumentum segít elindítani az alkalmazást, amely egy Flutter alapú mob
 - Android Studio vagy VS Code + Flutter plugin
 - iOS esetén Xcode
 - Docker Desktop (vagy bármilyen Docker CLI)
-- Android/iOS emulator vagy fizikai eszköz (azonos Wi-Fi-n!)
+- Android/iOS emulátor vagy fizikai eszköz (azonos Wi-Fi-n!)
 
 ---
 
