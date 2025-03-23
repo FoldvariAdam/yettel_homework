@@ -54,6 +54,11 @@ Windows:
 ipconfig
 ```
 
+Viszont iPhone-ál előfordulhat hogy nem enegdi hogy helyi hálózatra csatlakozz.
+
+Ebben az esetben lépj be az iPhone-on:
+Beállítások > [Alkalmazás neve, pl. "Vignette Pass"] > Helyi hálózat → Kapcsold be, ha még nincs engedélyezve.
+
 ### 2. Győződj meg hogy regisztrálva van az asseteknél a `.env`:
 
 A `pubspec.yaml`-ban:
