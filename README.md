@@ -6,14 +6,17 @@ Ez a dokumentum segít elindítani az alkalmazást, amely egy Flutter alapú mob
 
 ## Előfeltételek
 
-- Flutter SDK (https://docs.flutter.dev/get-started/install)
+- Flutter SDK 3.29.1 (https://docs.flutter.dev/get-started/install)
 - Android Studio vagy VS Code + Flutter plugin
-- Docker Desktop
-- Android emulator vagy fizikai eszköz
+- iOS esetén Xcode
+- Docker Desktop (vagy bármilyen Docker CLI)
+- Android/iOS emulator vagy fizikai eszköz (azonos Wi-Fi-n!)
 
 ---
 
 ## 1. Backend indítása Dockerből
+
+Lépj be a docker mappába, majd add ki a következő parancsot.
 
 ```bash
 docker-compose up --build
@@ -27,12 +30,29 @@ Ez elérhetővé teszi a backendet a saját gépeden a `8080`-as porton.
 
 ### 1. Hozz létre egy `.env` fájlt a projekt gyökerében
 
+Add meg az IP-címet így:
+
 ```env
 IP=10.0.2.2
 ```
 
 - `10.0.2.2` az Android emulátor által elért "localhost"
+- `localhost` vagy `127.0.0.1` az iOS emulátor esetében
 - Fizikai eszköznél írd be a saját IP-címed (pl. `192.168.x.x`)
+
+IP-címet így tudsz lekérni:
+
+macOS:
+
+```bash
+ipconfig getifaddr en0
+```
+
+Windows:
+
+```bash
+ipconfig
+```
 
 ### 2. Győződj meg hogy regisztrálva van az asseteknél a `.env`:
 
@@ -57,12 +77,15 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
   await dotenv.load();
+
+  registerServices();
   registerApis();
-  runApp(const MyApp());
+  registerBlocs();
+  runApp(MyApp());
 }
 ```
 
-### `registerApis()` vagy `ioc.dart`:
+### `ioc.dart`:
 
 ```dart
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -105,8 +128,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
   // await dotenv.load();
+
+  registerServices();
   registerApis();
-  runApp(const MyApp());
+  registerBlocs();
+  runApp(MyApp());
 }
 
 void registerApis() {
