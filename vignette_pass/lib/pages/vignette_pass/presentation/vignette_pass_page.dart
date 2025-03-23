@@ -15,7 +15,7 @@ class _VignettePassPageState extends State<VignettePassPage> {
 
   FlattenedVignette? _selectedVignette;
 
-  final _vignettePriority = {'WEEK': 0, 'MONTH': 1, 'DAY': 2};
+  final _vignettePriority = {IDs.week: 0, IDs.month: 1, IDs.day: 2};
 
   @override
   Widget build(BuildContext context) {
@@ -77,10 +77,11 @@ class _VignettePassPageState extends State<VignettePassPage> {
                   SizedBox(height: _applicationConfig.spacing3),
                   AppButton.primary(
                     text: 'Vásárlás',
-                    onPressed: () => navigationService.goToPurchaseConfirmationPage(
-                      vehicleInfo: vehicleInfo,
-                      selectedVignettes: [_selectedVignette!],
-                    ),
+                    onPressed:
+                        () => navigationService.goToPurchaseConfirmationPage(
+                          vehicleInfo: vehicleInfo,
+                          selectedVignettes: [_selectedVignette!],
+                        ),
                     disabled: _selectedVignette == null,
                   ),
                   SizedBox(height: _applicationConfig.spacing3),
@@ -88,16 +89,16 @@ class _VignettePassPageState extends State<VignettePassPage> {
                     child: ListTile(
                       title: Text('Éves vármegyei matricák', style: _applicationConfig.heading5L),
                       trailing: const Icon(Icons.arrow_forward_ios),
-                      onTap: () => NavigationService.of(context).goToAnnualCountyPage(
-                        vehicleInfo: state.vehicleInfo,
-                        vignettes: highwayInfo.vignettesWithYear,
-                      ),
+                      onTap:
+                          () => NavigationService.of(context).goToAnnualCountyPage(
+                            vehicleInfo: state.vehicleInfo,
+                            vignettes: highwayInfo.vignettesWithYear,
+                          ),
                     ),
                   ),
                 ],
               ),
             );
-
           } else if (state is VignettePassLoadingState) {
             return Center(child: CircularProgressIndicator(color: _applicationConfig.mainColor));
           }

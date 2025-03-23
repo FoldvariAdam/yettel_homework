@@ -3,5 +3,9 @@ class Fees {
 }
 
 class IDs {
-  static const year = 'YEAR_';
+  static const day = 'DAY';
+  static const week = 'WEEK';
+  static const month = 'MONTH';
+  static const year = 'YEAR';
+  static const county = 'YEAR_';
 }

@@ -46,13 +46,13 @@ extension FlattenVignettes on List<GetHighwayInfo200ResponsePayloadHighwayVignet
 
   String _formatVignetteTitle({required String type, required String category}) {
     switch (type) {
-      case 'DAY':
+      case IDs.day:
         return '$category - napi (1 napos)';
-      case 'WEEK':
+      case IDs.week:
         return '$category - heti (10 napos)';
-      case 'MONTH':
+      case IDs.month:
         return '$category - havi';
-      case 'YEAR':
+      case IDs.year:
         return '$category - éves';
       default:
         return '$category - $type';
