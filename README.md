@@ -28,7 +28,7 @@ Ez elérhetővé teszi a backendet a saját gépeden a `8080`-as porton.
 
 ## 2. `.env` fájl beállítása
 
-### 1. Hozz létre egy `.env` fájlt a projekt gyökerében
+### 1. Hozz létre egy `.env` fájlt a Flutter projekt (vignette_pass) gyökerében
 
 Add meg az IP-címet így:
 
